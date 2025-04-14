@@ -1,17 +1,30 @@
 # Jewelry Management System API
 
-A comprehensive RESTful API for managing jewelry orders, workers, cities, and payments. This system is designed for jewelry businesses that operate across multiple cities with different workers handling orders.
+A RESTful API for managing jewelry orders, workers, cities, and payments. This system is designed for jewelry businesses that operate across multiple cities with different workers handling orders.
 
 ## 📋 Table of Contents
 
+- [Project Status](#project-status)
 - [Architecture](#architecture)
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
-- [Key Features](#key-features)
+- [Implemented Features](#implemented-features)
 - [Database Design](#database-design)
 - [API Endpoints](#api-endpoints)
 - [Setup and Installation](#setup-and-installation)
-- [Future Enhancements](#future-enhancements)
+- [Development Roadmap](#development-roadmap)
+
+## 🚧 Project Status
+
+**Current Status**: Initial Development
+
+- ✅ Admin Module: Completed
+- 🔄 City Module: Planned
+- 🔄 Worker Module: Planned
+- 🔄 Order Module: Planned
+- 🔄 Payment Module: Planned
+
+This project is in active development. Currently, only the Admin module has been fully implemented. The README outlines both the implemented features and the planned architecture for the complete system.
 
 ## 🏗️ Architecture
 
@@ -32,7 +45,6 @@ The Jewelry Management System follows a layered architecture with clean separati
 3. **DTO Pattern (Data Transfer Objects)**
    - Separates API contracts from domain models
    - Prevents over-exposure of domain entities
-   - Allows for versioning and evolution of APIs independently from domain models
 
 4. **Centralized Exception Handling**
    - Global exception handler using `@ControllerAdvice`
@@ -55,6 +67,36 @@ The Jewelry Management System follows a layered architecture with clean separati
 
 ## 📁 Project Structure
 
+Current project structure (implemented components):
+
+```
+src/main/java/com/jewelry/management/
+├── JewelryManagementApplication.java
+├── controller/
+│   └── AdminController.java
+├── dto/
+│   ├── request/
+│   │   └── AdminRequest.java
+│   └── response/
+│       └── AdminResponse.java
+├── entity/
+│   └── Admin.java
+├── exception/
+│   ├── ApiError.java
+│   ├── BadRequestException.java
+│   ├── GlobalExceptionHandler.java
+│   └── ResourceNotFoundException.java
+├── repository/
+│   └── AdminRepository.java
+└── service/
+    ├── impl/
+    │   └── AdminServiceImpl.java
+    └── interfaces/
+        └── AdminService.java
+```
+
+Planned full project structure:
+
 ```
 src/main/java/com/jewelry/management/
 ├── JewelryManagementApplication.java
@@ -67,19 +109,7 @@ src/main/java/com/jewelry/management/
 │   └── PaymentController.java
 ├── dto/
 │   ├── request/
-│   │   ├── AdminRequest.java
-│   │   ├── CityRequest.java
-│   │   ├── WorkerRequest.java
-│   │   ├── OrderRequest.java
-│   │   ├── OrderStatusUpdateRequest.java
-│   │   └── PaymentRequest.java
 │   └── response/
-│       ├── AdminResponse.java
-│       ├── CityResponse.java
-│       ├── WorkerResponse.java
-│       ├── OrderResponse.java
-│       ├── OrderStatusHistoryResponse.java
-│       └── PaymentResponse.java
 ├── entity/
 │   ├── Admin.java
 │   ├── City.java
@@ -88,69 +118,38 @@ src/main/java/com/jewelry/management/
 │   ├── OrderStatusHistory.java
 │   └── Payment.java
 ├── exception/
-│   ├── ApiError.java
-│   ├── BadRequestException.java
-│   ├── GlobalExceptionHandler.java
-│   └── ResourceNotFoundException.java
 ├── repository/
-│   ├── AdminRepository.java
-│   ├── CityRepository.java
-│   ├── WorkerRepository.java
-│   ├── OrderRepository.java
-│   ├── OrderStatusHistoryRepository.java
-│   └── PaymentRepository.java
 ├── service/
 │   ├── impl/
-│   │   ├── AdminServiceImpl.java
-│   │   ├── CityServiceImpl.java
-│   │   ├── WorkerServiceImpl.java
-│   │   ├── OrderServiceImpl.java
-│   │   └── PaymentServiceImpl.java
 │   └── interfaces/
-│       ├── AdminService.java
-│       ├── CityService.java
-│       ├── WorkerService.java
-│       ├── OrderService.java
-│       └── PaymentService.java
 └── util/
-    ├── OrderStatus.java
-    └── PaymentStatus.java
 ```
 
-## ✨ Key Features
+## ✨ Implemented Features
 
-1. **Admin Management**
-   - Create, update, and delete admin users
-   - View admin details
-
-2. **City Management**
-   - Add, update, and remove cities
-   - List all cities
-
-3. **Worker Management**
-   - Register workers with their details (name, contact, photo)
-   - Assign workers to specific cities
-   - Update worker information
-
-4. **Order Management**
-   - Create orders with source and destination cities
-   - Assign orders to workers
-   - Track order status (created, dispatched, in transit, received, sold, etc.)
-   - Maintain order history
-
-5. **Payment Tracking**
-   - Record payments for orders
-   - Track payment status (pending, collected by worker, received by admin)
-
-6. **Reporting**
-   - View orders by status
-   - View orders by city
-   - View orders assigned to specific workers
-   - Track pending payments
+### Admin Management
+- Create, update, and delete admin users
+- View admin details by ID or email
+- List all admin users
+- Input validation for admin data
+- Error handling for duplicate emails and invalid requests
 
 ## 🗄️ Database Design
 
-The system uses a relational database with the following key tables:
+### Current Database Schema
+
+Currently, only the `admins` table has been implemented:
+
+**admins**
+- `id` (Long, PK): Unique identifier
+- `name` (String): Admin's name
+- `email` (String, unique): Admin's email address
+- `password` (String): Admin's password
+- `mobile_number` (String): Admin's mobile number
+
+### Planned Database Schema
+
+The complete system will use a relational database with the following key tables:
 
 1. **admins**: Stores admin user information
 2. **cities**: Stores city information
@@ -161,7 +160,9 @@ The system uses a relational database with the following key tables:
 
 ## 🔌 API Endpoints
 
-### Admin API
+### Implemented Endpoints
+
+#### Admin API
 - `POST /api/admins` - Create a new admin
 - `GET /api/admins` - Get all admins
 - `GET /api/admins/{id}` - Get admin by ID
@@ -169,42 +170,9 @@ The system uses a relational database with the following key tables:
 - `PUT /api/admins/{id}` - Update admin
 - `DELETE /api/admins/{id}` - Delete admin
 
-### City API
-- `POST /api/cities` - Create a new city
-- `GET /api/cities` - Get all cities
-- `GET /api/cities/{id}` - Get city by ID
-- `GET /api/cities/name/{name}` - Get city by name
-- `PUT /api/cities/{id}` - Update city
-- `DELETE /api/cities/{id}` - Delete city
+### Planned Endpoints
 
-### Worker API
-- `POST /api/workers` - Create a new worker
-- `GET /api/workers` - Get all workers
-- `GET /api/workers/{id}` - Get worker by ID
-- `GET /api/workers/city/{cityId}` - Get workers by city
-- `PUT /api/workers/{id}` - Update worker
-- `DELETE /api/workers/{id}` - Delete worker
-
-### Order API
-- `POST /api/orders` - Create a new order
-- `GET /api/orders` - Get all orders
-- `GET /api/orders/{id}` - Get order by ID
-- `GET /api/orders/number/{orderNumber}` - Get order by order number
-- `GET /api/orders/status/{status}` - Get orders by status
-- `GET /api/orders/from-city/{cityId}` - Get orders by source city
-- `GET /api/orders/to-city/{cityId}` - Get orders by destination city
-- `GET /api/orders/worker/{workerId}` - Get orders by assigned worker
-- `PUT /api/orders/status` - Update order status
-- `DELETE /api/orders/{id}` - Delete order
-
-### Payment API
-- `POST /api/payments` - Create a new payment
-- `GET /api/payments` - Get all payments
-- `GET /api/payments/{id}` - Get payment by ID
-- `GET /api/payments/order/{orderId}` - Get payments by order
-- `GET /api/payments/status/{status}` - Get payments by status
-- `PUT /api/payments/{id}/status/{status}` - Update payment status
-- `DELETE /api/payments/{id}` - Delete payment
+The system will eventually include endpoints for managing cities, workers, orders, and payments.
 
 ## 🚀 Setup and Installation
 
@@ -217,3 +185,4 @@ The system uses a relational database with the following key tables:
 1. Install MySQL if not already installed
 2. Create a database named `jewelry_management`
 3. Update the database configuration in `application.properties` with your MySQL username and password
+

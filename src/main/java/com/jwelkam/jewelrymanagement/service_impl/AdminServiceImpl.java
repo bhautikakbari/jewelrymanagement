@@ -20,12 +20,16 @@ import com.jwelkam.jewelrymanagement.service.AdminService;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
+    //@Autowired
     private AdminRepository adminRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
+    //@Autowired
+    private ModelMapper modelMapper;
 
+    public AdminServiceImpl(@Autowired AdminRepository adminRepository,@Autowired ModelMapper modelMapper){
+        this.adminRepository=adminRepository;
+        this.modelMapper = modelMapper;
+    }
     @Override
     public AdminResponse createAdmin(AdminRequest adminRequest) {
 

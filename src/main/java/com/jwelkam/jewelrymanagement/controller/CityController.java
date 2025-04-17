@@ -21,8 +21,11 @@ import com.jwelkam.jewelrymanagement.service.CityService;
 @RequestMapping("/api/cities")
 public class CityController {
 
-    @Autowired
     private CityService cityService;
+
+    public CityController(@Autowired CityService cityService){
+        this.cityService = cityService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<CityResponse> createCity(@RequestBody CityRequest cityRequest){
